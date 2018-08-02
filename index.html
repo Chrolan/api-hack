@@ -10,18 +10,26 @@
 <body>
     <header role="header">
         <form class="js-search">
-            <label for="js-search-parameter">Search by Location!</label>
-            <input type="text" id="js-search-parameter" class="js-search-parameter" placeholder="Grand Cayman">
+            <fieldset>
+                <legend class="title-search">Search Dive Site By Location!</legend>
+                <label for="js-search-parameter">Search by Location!</label>
+                <input type="text" id="js-search-parameter" class="js-search-parameter" placeholder="Grand Cayman">
+                <button type="button" class="js-search-button">Search!</button>
+            </fieldset>
         </form>
     </header>
 
-    <main role="main">
+    <main role="main" aria-live="assertive" hidden>
+
+        <div class="js-dive-list"></div>
+
+        <div class="google-maps"></div>
 
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
-    <script src="index.js" type="text/javascript"></script>
+    <script src="index.js"></script>
 
 </body>
 </html>
