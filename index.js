@@ -16,7 +16,7 @@ function getSearchParameter () {
 function getRestaurantData (data) {
     //create constant that will use passed through query
     const query = {
-        key: '9144a162a1d830e240b70a23d61725f7',
+        apikey: '9144a162a1d830e240b70a23d61725f7',
         lat: `${data.results[0].geometry.location.lat}`,
         lon: `${data.results[0].geometry.location.lng}`
     };
@@ -29,11 +29,12 @@ function getRestaurantData (data) {
 function googleMapApi (location) {
     //create constant that will use passed through query
     const query = {
-        key: 'AIzaSyBp_stUCKfLCgsrrQjS8cda2oWFCP3t4EM',
         address: location,
+        key: 'AIzaSyBp_stUCKfLCgsrrQjS8cda2oWFCP3t4EM'
     };
     //call JSON method
     $.getJSON(geoLocationAPI,query,getRestaurantData);
+    console.log($.getJSON(geoLocationAPI,query));
 }
 
 
