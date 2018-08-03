@@ -1,10 +1,10 @@
 //APIs we will use in this website
-const diveAPI = 'http://api.divesites.com/';
+const zomatoAPI = 'https://developers.zomato.com/api/v2.1/geocode';
 const geoLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 
 //function to get the search value used in input field, this will be passed to a geolocation API service to obtain its long/lat
-function getSerachParameter () {
+function getSearchParameter () {
     $('.js-search').submit(event => {
     event.preventDefault();
     console.log($('.js-search-parameter').val());
@@ -12,30 +12,18 @@ function getSerachParameter () {
     });
 }
 
-
-
-//function to get dive data
-function getDiveData (data) {
+//function to get restaurant data
+function getRestaurantData (data) {
     //create constant that will use passed through query
     const query = {
-        data: {mode: 'sites',
-        lng: `${data.results[0].geometry.location.lng}`,
+        key: '9144a162a1d830e240b70a23d61725f7',
         lat: `${data.results[0].geometry.location.lat}`,
-        dist: 50},
-        url: diveAPI,
-        type: 'POST',
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        dataType: 'json',
-        success: successCallback
+        lon: `${data.results[0].geometry.location.lng}`
     };
     //call JSON method
-    $.ajax(query);
+    $.getJSON(zomatoAPI,query);
+    console.log($.getJSON(zomatoAPI,query));
 }
-
-function successCallback (data) {
-    console.log(data);
-}
-
 
 //function to get the long/lat of the given search result
 function googleMapApi (location) {
@@ -45,16 +33,14 @@ function googleMapApi (location) {
         address: location,
     };
     //call JSON method
-    console.log($.getJSON(geoLocationAPI,query));
-    $.getJSON(geoLocationAPI,query,getDiveData);
+    $.getJSON(geoLocationAPI,query,getRestaurantData);
 }
 
 
 
 function startWebsite() {
-    //getDiveData();
-    getSerachParameter();
-
+    //getRestaurantData();
+    getSearchParameter();
 }
 
 
