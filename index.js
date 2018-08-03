@@ -18,15 +18,24 @@ function getSerachParameter () {
 function getDiveData (data) {
     //create constant that will use passed through query
     const query = {
-        mode: 'sites',
+        data: {mode: 'sites',
         lng: `${data.results[0].geometry.location.lng}`,
         lat: `${data.results[0].geometry.location.lat}`,
-        dist: 50
+        dist: 50},
+        url: diveAPI,
+        type: 'POST',
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        dataType: 'json',
+        success: successCallback
     };
     //call JSON method
-    $.getJSON(diveAPI,query);
-    console.log($.getJSON(diveAPI,query))
+    $.ajax(query);
 }
+
+function successCallback (data) {
+    console.log(data);
+}
+
 
 //function to get the long/lat of the given search result
 function googleMapApi (location) {
