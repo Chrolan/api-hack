@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>API Capstone - Restaurant Finder</title>
+    <link href="index.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <header role="header">
@@ -21,13 +22,15 @@
 
     <main role="main" aria-live="assertive" hidden>
 
-        <div class="js-dive-list"></div>
+        <div class="js-restaurant-list"></div>
 
-        <div class="google-maps"></div>
+        <div id="map" class="google-maps"></div>
 
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi2cz-q8rAGCm6x5nqOKNHdjudOa0QDYY&libraries=places"></script>
 
     <script src="index.js"></script>
 
