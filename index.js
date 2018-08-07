@@ -1,7 +1,7 @@
 //APIs we will use in this website
 const zomatoAPI = 'https://developers.zomato.com/api/v2.1/geocode';
 const geoLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json';
-let map; let latLong; let longitude; let latitude; let marker;
+let map; let latLong; let longitude; let latitude; let markerList; let marker;
 
 //function to get the search value used in input field, this will be passed to a geolocation API service to obtain its long/lat
 function getSearchParameter () {
@@ -70,26 +70,109 @@ function renderMarkers (data,map) {
     type: 'poly'
   };
      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(Number(`{data.restaurant.location.latitude}`),Number(`${data.restaurant.location.longitude}`)),
+        position: new google.maps.LatLng(`${data.restaurant.location.latitude}`,`${data.restaurant.location.longitude}`),
         map: map,
         icon: image,
         shape: shape,
         title: `${data.restaurant.name}`
     });
-    console.log(marker)
+     return marker;
 }
 
 function displayGoogleMarkers (data,map) {
-    return data.nearby_restaurants.map((item,index) => renderMarkers(item,map));
+    markerList = data.nearby_restaurants.map((item,index) => {
+        return renderMarkers(item, map);
+    });
+    return markerList;
 }
 
 //function that when called will load the google map within page
 function initMap (data) {
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
-      center: latLong
+        zoom: 13,
+        center: latLong,
+        styles: [
+        {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+        {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+        {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'poi',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'geometry',
+          stylers: [{color: '#263c3f'}]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#6b9a76'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{color: '#38414e'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry.stroke',
+          stylers: [{color: '#212a37'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#9ca5b3'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry',
+          stylers: [{color: '#746855'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [{color: '#1f2835'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#f3d19c'}]
+        },
+        {
+          featureType: 'transit',
+          elementType: 'geometry',
+          stylers: [{color: '#2f3948'}]
+        },
+        {
+          featureType: 'transit.station',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [{color: '#17263c'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#515c6d'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.stroke',
+          stylers: [{color: '#17263c'}]
+        }
+      ]
     });
-    displayGoogleMarkers(data,map);
+    displayGoogleMarkers (data,map);
 }
 
 function unhideHtml () {
