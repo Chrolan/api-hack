@@ -11,6 +11,16 @@ function getSearchParameter () {
     });
 }
 
+//function to get the long/lat of the given search result
+function googleMapApi (location) {
+    //create constant that will use passed through query
+    const query = {
+        address: location,
+        key: 'AIzaSyBi2cz-q8rAGCm6x5nqOKNHdjudOa0QDYY'
+    };
+    $.getJSON(geoLocationAPI,query,getRestaurantData);
+}
+
 //function to get restaurant data
 function getRestaurantData (data) {
     //Convert the lat/long into numbers. This is for passing it into the initMap function that won't accept them as string
@@ -26,17 +36,8 @@ function getRestaurantData (data) {
     };
     //call JSON method
     $.getJSON(zomatoAPI,query,displayResults);
-}
-
-//function to get the long/lat of the given search result
-function googleMapApi (location) {
-    //create constant that will use passed through query
-    const query = {
-        address: location,
-        key: 'AIzaSyBi2cz-q8rAGCm6x5nqOKNHdjudOa0QDYY'
-    };
-    //call JSON method
-    $.getJSON(geoLocationAPI,query,getRestaurantData);
+    console.log($.getJSON(zomatoAPI,query));
+    console.log(latLong)
 }
 
 function renderResults (data) {
@@ -45,26 +46,59 @@ function renderResults (data) {
             </div>`
 }
 
-function displayResults (data) {
-    let results = data.nearby_restaurants.map((item,index) => renderResults(item));
-    //
-    $('.js-restaurant-list').html(results);
-    initMap();
-    unhideHtml();
+function renderMarkers (data) {
+    var image = {
+    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    // This marker is 20 pixels wide by 32 pixels high.
+    size: new google.maps.Size(20, 32),
+    // The origin for this image is (0, 0).
+    origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+    anchor: new google.maps.Point(0, 32)
+  };
+    var shape = {
+    coords: [1, 1, 1, 20, 18, 20, 18, 1],
+    type: 'poly'
+  };
+    let marker = new google.maps.Marker({
+        position: {lat:Number(`{data.restaurant.location.latitude}`),lng:Number(`${data.restaurant.location.longitude}`)},
+        map: map,
+        icon: image,
+        shape: shape,
+        title: `${data.restaurant.name}`,
+    });
 }
 
-function initMap () {
+//uses renderResults to display same set of HTML for each result
+function displayList (data) {
+    let listResults = data.nearby_restaurants.map((item,index) => renderResults(item));
+    //inserts the mapped items into restaurant-list
+    $('.js-restaurant-list').html(listResults);
+}
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 14,
-          center: latLong
-        });
+function displayGoogleMarkers (data) {
+    data.nearby_restaurants.map((item,index) => renderMarkers(item));
+}
+
+//function that when called will load the google map within page
+function initMap () {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: latLong
+    });
 }
 
 function unhideHtml () {
     $('main').prop('hidden',false);
 }
 
+//function to pass data from getRestarauntData into multiple functions
+function displayResults (data) {
+    displayList(data);
+    displayGoogleMarkers(data);
+    initMap();
+    unhideHtml();
+}
 
 function startWebsite() {
     getSearchParameter();
