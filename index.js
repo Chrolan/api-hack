@@ -79,6 +79,7 @@ function renderMarkers (data,map) {
      return marker;
 }
 
+//makes a marker object for each list return
 function displayGoogleMarkers (data,map) {
     markerList = data.nearby_restaurants.map((item,index) => {
         return renderMarkers(item, map);
@@ -175,6 +176,7 @@ function initMap (data) {
     displayGoogleMarkers (data,map);
 }
 
+//unhides the HTML results and googlemaps that are childrend of main
 function unhideHtml () {
     $('main').prop('hidden',false);
 }
