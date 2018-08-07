@@ -1,5 +1,5 @@
 //APIs we will use in this website
-const zomatoAPI = 'https://developers.zomato.com/api/v2.1/geocode';
+const zomatoAPI = 'https://developers.zomato.com/api/v2.1/search';
 const geoLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json';
 let map; let latLong; let longitude; let latitude; let markerList; let marker;
 
@@ -31,6 +31,8 @@ function getRestaurantData (data) {
     //create constant that will use passed through query
     const query = {
         apikey: '9144a162a1d830e240b70a23d61725f7',
+        radius: '200',
+        count : '20',
         lat: latitude,
         lon: longitude
     };
@@ -42,15 +44,20 @@ function getRestaurantData (data) {
 
 //uses renderResults to display same set of HTML for each result
 function displayList (data) {
-    let listResults = data.nearby_restaurants.map((item,index) => renderResults(item));
+    let listResults = data.restaurants.map((item,index) => renderResults(item));
     //inserts the mapped items into restaurant-list
     $('.js-restaurant-list').html(listResults);
 }
 
 //creates HTML for each returned result of getRestaurantData via displayList
 function renderResults (data) {
-    return `<div class="restuarant">
-                <h2>${data.restaurant.name}</h2>
+    return `<div class="restuarant col-6">
+                <h3>${data.restaurant.name}</h3>
+                <span class="website">
+                    <a href="${data.restaurant.url}" target="_blank">Information</a> 
+                    <a href="${data.restaurant.menu_url}" target="_blank">Menu</a>
+                    <p class="food-type">Type: ${data.restaurant.cuisines}</p>
+                </span>
             </div>`
 }
 
@@ -81,7 +88,7 @@ function renderMarkers (data,map) {
 
 //makes a marker object for each list return
 function displayGoogleMarkers (data,map) {
-    markerList = data.nearby_restaurants.map((item,index) => {
+    markerList = data.restaurants.map((item,index) => {
         return renderMarkers(item, map);
     });
     return markerList;
@@ -90,7 +97,7 @@ function displayGoogleMarkers (data,map) {
 //function that when called will load the google map within page
 function initMap (data) {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
+        zoom: 12,
         center: latLong,
         styles: [
         {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
