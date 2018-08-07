@@ -1,7 +1,7 @@
 //APIs we will use in this website
 const zomatoAPI = 'https://developers.zomato.com/api/v2.1/geocode';
 const geoLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json';
-let map; let latLong; let longitude; let latitude;
+let map; let latLong; let longitude; let latitude; let marker;
 
 //function to get the search value used in input field, this will be passed to a geolocation API service to obtain its long/lat
 function getSearchParameter () {
@@ -40,14 +40,23 @@ function getRestaurantData (data) {
     console.log(latLong)
 }
 
+//uses renderResults to display same set of HTML for each result
+function displayList (data) {
+    let listResults = data.nearby_restaurants.map((item,index) => renderResults(item));
+    //inserts the mapped items into restaurant-list
+    $('.js-restaurant-list').html(listResults);
+}
+
+//creates HTML for each returned result of getRestaurantData via displayList
 function renderResults (data) {
     return `<div class="restuarant">
                 <h2>${data.restaurant.name}</h2>
             </div>`
 }
 
-function renderMarkers (data) {
-    var image = {
+//function to create markers
+function renderMarkers (data,map) {
+    let image = {
     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
     // This marker is 20 pixels wide by 32 pixels high.
     size: new google.maps.Size(20, 32),
@@ -56,36 +65,31 @@ function renderMarkers (data) {
     // The anchor for this image is the base of the flagpole at (0, 32).
     anchor: new google.maps.Point(0, 32)
   };
-    var shape = {
+    let shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
   };
-    let marker = new google.maps.Marker({
-        position: {lat:Number(`{data.restaurant.location.latitude}`),lng:Number(`${data.restaurant.location.longitude}`)},
+     marker = new google.maps.Marker({
+        position: new google.maps.LatLng(Number(`{data.restaurant.location.latitude}`),Number(`${data.restaurant.location.longitude}`)),
         map: map,
         icon: image,
         shape: shape,
-        title: `${data.restaurant.name}`,
+        title: `${data.restaurant.name}`
     });
+    console.log(marker)
 }
 
-//uses renderResults to display same set of HTML for each result
-function displayList (data) {
-    let listResults = data.nearby_restaurants.map((item,index) => renderResults(item));
-    //inserts the mapped items into restaurant-list
-    $('.js-restaurant-list').html(listResults);
-}
-
-function displayGoogleMarkers (data) {
-    data.nearby_restaurants.map((item,index) => renderMarkers(item));
+function displayGoogleMarkers (data,map) {
+    return data.nearby_restaurants.map((item,index) => renderMarkers(item,map));
 }
 
 //function that when called will load the google map within page
-function initMap () {
+function initMap (data) {
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
       center: latLong
     });
+    displayGoogleMarkers(data,map);
 }
 
 function unhideHtml () {
@@ -95,8 +99,7 @@ function unhideHtml () {
 //function to pass data from getRestarauntData into multiple functions
 function displayResults (data) {
     displayList(data);
-    displayGoogleMarkers(data);
-    initMap();
+    initMap(data);
     unhideHtml();
 }
 
