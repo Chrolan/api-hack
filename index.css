@@ -1,6 +1,51 @@
 * {
     box-sizing: border-box;
+    font-family: 'Noto Serif', serif;
 }
+
+.header {
+    text-align: center;
+    color: white;
+    text-decoration-color: black;
+}
+.banner {
+    background: url("http://www.4usky.com/data/out/77/164689783-restaurant-wallpapers.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 #map {
-    height: 350px;
+    height: 200px;
+}
+h3 {
+    margin-bottom: 10px;
+}
+.explanation {
+    margin-bottom: 15px;
+    font-weight: bolder;
+}
+.food-type {
+    margin-top: 10px;
+}
+.restaurant {
+    background-color: lightgray;
+    border: black 1px  solid;
+}
+fieldset {
+    border: none;
+}
+.js-search-button, .js-search-parameter {
+    border: black 1px solid;
+    font-weight: bold;
+    padding: 3px;
+    margin-top: 5px;
+}
+
+label, .title-search {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.restaurant:focus-within, .restaurant:hover {
+    background: white;
 }

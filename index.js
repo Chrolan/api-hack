@@ -5,7 +5,7 @@ let map; let latLong; let longitude; let latitude; let markerList; let marker;
 
 //function to get the search value used in input field, this will be passed to a geolocation API service to obtain its long/lat
 function getSearchParameter () {
-    $('.js-search').submit(event => {
+    $('.js-search').submit( event => {
     event.preventDefault();
     googleMapApi($('.js-search-parameter').val());
     });
@@ -51,12 +51,12 @@ function displayList (data) {
 
 //creates HTML for each returned result of getRestaurantData via displayList
 function renderResults (data) {
-    return `<div class="restuarant col-6">
+    return `<div class="restaurant col-6">
                 <h3>${data.restaurant.name}</h3>
                 <span class="website">
                     <a href="${data.restaurant.url}" target="_blank">Information</a> 
                     <a href="${data.restaurant.menu_url}" target="_blank">Menu</a>
-                    <p class="food-type">Type: ${data.restaurant.cuisines}</p>
+                    <p class="food-type">${data.restaurant.cuisines}</p>
                 </span>
             </div>`
 }
