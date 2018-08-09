@@ -25,6 +25,7 @@ function googleMapApiAjax (location) {
         error: displayError
     };
     $.ajax(settings);
+    console.log($.ajax(settings));
 }
 
 
@@ -45,7 +46,6 @@ function getRestaurantData (data) {
         url: zomatoAPI,
         data: {
             apikey: '9144a162a1d830e240b70a23d61725f7',
-            radius: '200',
             count: '10',
             lat: latitude,
             lon: longitude
@@ -57,6 +57,8 @@ function getRestaurantData (data) {
         };
     //call Ajax method
     $.ajax(settings);
+    console.log(settings);
+    console.log($.ajax(settings))
 }
 
 //uses renderResults to display same set of HTML for each result
