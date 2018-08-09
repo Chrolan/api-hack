@@ -124,7 +124,7 @@ function displayGoogleMarkers (data,map) {
 //function that when called will load the google map within page
 function initMap (data) {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
+        zoom: 11,
         center: latLong,
         styles: [
         {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
