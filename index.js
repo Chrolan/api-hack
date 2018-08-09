@@ -7,39 +7,56 @@ let map; let latLong; let longitude; let latitude; let markerList; let marker;
 function getSearchParameter () {
     $('.js-search').submit( event => {
     event.preventDefault();
-    googleMapApi($('.js-search-parameter').val());
+    googleMapApiAjax($('.js-search-parameter').val());
     });
 }
 
-//function to get the long/lat of the given search result
-function googleMapApi (location) {
-    //create constant that will use passed through query
-    const query = {
-        address: location,
-        key: 'AIzaSyBi2cz-q8rAGCm6x5nqOKNHdjudOa0QDYY'
+//Use ajax, so we can error handle based on search
+function googleMapApiAjax (location) {
+    const settings = {
+        url: geoLocationAPI,
+        data: {
+            address: location,
+            key: 'AIzaSyBi2cz-q8rAGCm6x5nqOKNHdjudOa0QDYY'
+        },
+        dataType: 'json',
+        type: 'GET',
+        success: getRestaurantData,
+        error: displayError
     };
-    $.getJSON(geoLocationAPI,query,getRestaurantData);
+    $.ajax(settings);
 }
+
 
 //function to get restaurant data
 function getRestaurantData (data) {
     //Convert the lat/long into numbers. This is for passing it into the initMap function that won't accept them as string
-    latitude = Number(`${data.results[0].geometry.location.lat}`);
-    longitude = Number(`${data.results[0].geometry.location.lng}`);
-    //make lat/long into a
+    try {
+        latitude = Number(`${data.results[0].geometry.location.lat}`);
+        longitude = Number(`${data.results[0].geometry.location.lng}`);
+    }
+    catch (err) {
+        alert('Please retry search. Remember to use City AND State to narrow down search!');
+    }
+    //make lat/long into a string
     latLong = {lat: latitude, lng: longitude};
     //create constant that will use passed through query
-    const query = {
-        apikey: '9144a162a1d830e240b70a23d61725f7',
-        radius: '200',
-        count : '20',
-        lat: latitude,
-        lon: longitude
-    };
-    //call JSON method
-    $.getJSON(zomatoAPI,query,displayResults);
-    console.log($.getJSON(zomatoAPI,query));
-    console.log(latLong)
+    const settings = {
+        url: zomatoAPI,
+        data: {
+            apikey: '9144a162a1d830e240b70a23d61725f7',
+            radius: '200',
+            count: '10',
+            lat: latitude,
+            lon: longitude
+        },
+        dataType: 'json',
+        type: 'GET',
+        success: displayResults,
+        error: displayError
+        };
+    //call Ajax method
+    $.ajax(settings);
 }
 
 //uses renderResults to display same set of HTML for each result
@@ -47,6 +64,14 @@ function displayList (data) {
     let listResults = data.restaurants.map((item,index) => renderResults(item));
     //inserts the mapped items into restaurant-list
     $('.js-restaurant-list').html(listResults);
+}
+
+function renderError () {
+    return `<span class="error-message">Oops! You may have typed in your location in wrong, try again!<br>Tip: Remember to use City, State in combination!</span>`
+}
+
+function displayError () {
+    $('.error').html(renderError());
 }
 
 //creates HTML for each returned result of getRestaurantData via displayList

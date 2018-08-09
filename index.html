@@ -20,11 +20,13 @@
                     <legend class="title-search">Search for Restaurant!</legend>
                     <label for="js-search-parameter">Search by Location:</label>
                     <input type="text" id="js-search-parameter" class="js-search-parameter" placeholder="City, State">
-                    <button type="button" class="js-search-button">Search!</button>
+                    <button type="submit" class="js-search-button">Search!</button>
                 </fieldset>
             </form>
         </div>
     </header>
+
+    <div class="error" aria-live="assertive" hidden></div>
 
     <main role="main" aria-live="assertive" hidden>
 
@@ -33,6 +35,7 @@
         <div class="row">
         <div id="map" class="google-maps col-12"></div>
         </div>
+
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

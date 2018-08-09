@@ -2,23 +2,35 @@
     box-sizing: border-box;
     font-family: 'Noto Serif', serif;
 }
-
+h3 {
+    margin-bottom: 10px;
+}
+fieldset {
+    border: none;
+}
+label, .title-search {
+    font-size: 20px;
+    margin-top: 5px;
+}
+a:hover,a:focus {
+    font-weight: bolder;
+    color: darkmagenta;
+}
 .header {
     text-align: center;
     color: white;
     text-decoration-color: black;
+    text-shadow: 0 1px 0 black;
 }
 .banner {
-    background: url("http://www.4usky.com/data/out/77/164689783-restaurant-wallpapers.jpg");
-    background-repeat: no-repeat;
+    background: linear-gradient(
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+    ), url("banner.jpg") no-repeat;
     background-size: cover;
 }
-
 #map {
     height: 200px;
-}
-h3 {
-    margin-bottom: 10px;
 }
 .explanation {
     margin-bottom: 15px;
@@ -31,18 +43,11 @@ h3 {
     background-color: lightgray;
     border: black 1px  solid;
 }
-fieldset {
-    border: none;
-}
+
 .js-search-button, .js-search-parameter {
     border: black 1px solid;
     font-weight: bold;
     padding: 3px;
-    margin-top: 5px;
-}
-
-label, .title-search {
-    font-size: 20px;
     margin-top: 5px;
 }
 
