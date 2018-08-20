@@ -66,5 +66,12 @@
   }
   #map {
     height: 350px;
-}
+  }
+  h1 {
+    font-size: 50px;
+  }
+  .title-search {
+    font-size: 35px;
+  }
+
 }

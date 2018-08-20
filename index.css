@@ -2,7 +2,7 @@
     box-sizing: border-box;
     font-family: 'Noto Serif', serif;
 }
-h3 {
+h1 {
     margin-bottom: 10px;
 }
 fieldset {
@@ -11,6 +11,17 @@ fieldset {
 label, .title-search {
     font-size: 20px;
     margin-top: 5px;
+}
+button {
+    height: 30px;
+    width: 60px;
+}
+button:focus, button:hover {
+    background: greenyellow;
+}
+input:focus, input:hover {
+    background: yellow;
+    font-weight: bolder;
 }
 a:hover,a:focus {
     font-weight: bolder;
@@ -21,6 +32,9 @@ a:hover,a:focus {
     color: white;
     text-decoration-color: black;
     text-shadow: 0 1px 0 black;
+}
+.js-search {
+    margin-top: 45px;
 }
 .banner {
     background: linear-gradient(
