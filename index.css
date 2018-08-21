@@ -23,6 +23,19 @@ input:focus, input:hover {
     background: yellow;
     font-weight: bolder;
 }
+footer {
+    text-align: center;
+}
+ul li, ul {
+    display: inline-block;
+    margin-right: 20px;
+}
+.error {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
 a:hover,a:focus {
     font-weight: bolder;
     color: darkmagenta;

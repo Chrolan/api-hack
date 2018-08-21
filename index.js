@@ -25,7 +25,6 @@ function googleMapApiAjax (location) {
         error: displayError
     };
     $.ajax(settings);
-    console.log($.ajax(settings));
 }
 
 
@@ -37,7 +36,7 @@ function getRestaurantData (data) {
         longitude = Number(`${data.results[0].geometry.location.lng}`);
     }
     catch (err) {
-        alert('Please retry search. Remember to use City AND State to narrow down search!');
+        return displayError()
     }
     //make lat/long into a string
     latLong = {lat: latitude, lng: longitude};
@@ -53,12 +52,9 @@ function getRestaurantData (data) {
         dataType: 'json',
         type: 'GET',
         success: displayResults,
-        error: displayError
         };
     //call Ajax method
     $.ajax(settings);
-    console.log(settings);
-    console.log($.ajax(settings))
 }
 
 //uses renderResults to display same set of HTML for each result
@@ -66,6 +62,7 @@ function displayList (data) {
     let listResults = data.restaurants.map((item,index) => renderResults(item));
     //inserts the mapped items into restaurant-list
     $('.js-restaurant-list').html(listResults);
+    $('.js-search-parameter').val("");
 }
 
 function renderError () {
@@ -74,6 +71,7 @@ function renderError () {
 
 function displayError () {
     $('.error').html(renderError());
+    $('.error').prop('hidden',false);
 }
 
 //creates HTML for each returned result of getRestaurantData via displayList
