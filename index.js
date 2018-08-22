@@ -1,7 +1,7 @@
 //APIs we will use in this website
 const zomatoAPI = 'https://developers.zomato.com/api/v2.1/search';
 const geoLocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json';
-let map; let latLong; let longitude; let latitude; let markerList; let marker;
+let map; let latLong; let longitude; let latitude; let markerList; let marker; let boxList; let clicking;
 
 //function to get the search value used in input field, this will be passed to a geolocation API service to obtain its long/lat
 function getSearchParameter () {
@@ -72,6 +72,7 @@ function renderError () {
 function displayError () {
     $('.error').html(renderError());
     $('.error').prop('hidden',false);
+    $('main').prop('hidden',true);
 }
 
 //creates HTML for each returned result of getRestaurantData via displayList
@@ -108,6 +109,8 @@ function renderMarkers (data,map) {
         shape: shape,
         title: `${data.restaurant.name}`
     });
+     console.log(marker);
+     infoBox(data,marker,map);
      return marker;
 }
 
@@ -117,6 +120,33 @@ function displayGoogleMarkers (data,map) {
         return renderMarkers(item, map);
     });
     return markerList;
+}
+
+function infoBox (data, marker, map) {
+    let contentString = `<div class="info box">
+                <h3>${data.restaurant.name}</h3>
+                <span class="website">
+                    <a href="${data.restaurant.url}" target="_blank">Information</a> 
+                    <a href="${data.restaurant.menu_url}" target="_blank">Menu</a>
+                    <p class="food-type">${data.restaurant.cuisines}</p>
+                </span>
+            </div>`;
+
+    let infowindow = new google.maps.InfoWindow({
+          content: contentString});
+
+    clicking = marker.addListener('click', function() {
+        infowindow.open(map, marker);});
+
+    console.log(clicking);
+    return clicking;
+}
+
+function displayInfoBox (data, map, marker) {
+    boxList = data.restaurants.map((item,index) => {
+        return infoBox(item, map, marker);
+    });
+    return boxList;
 }
 
 //function that when called will load the google map within page
@@ -208,8 +238,9 @@ function initMap (data) {
     displayGoogleMarkers (data,map);
 }
 
-//unhides the HTML results and googlemaps that are childrend of main
+//unhides the HTML results and googlemaps that are children of main
 function unhideHtml () {
+    $('.error').prop('hidden',true);
     $('main').prop('hidden',false);
 }
 
