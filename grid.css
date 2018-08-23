@@ -73,5 +73,11 @@
   .title-search {
     font-size: 35px;
   }
+  .js-search-button {
+    width: 15%;
+  }
+  .js-search-parameter, .js-search-button  {
+    font-size: 15px;
+  }
 
 }

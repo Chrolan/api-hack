@@ -8,6 +8,10 @@ h1 {
 fieldset {
     border: none;
 }
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
 label, .title-search {
     font-size: 20px;
     margin-top: 5px;
@@ -20,7 +24,7 @@ button:focus, button:hover {
     background: greenyellow;
 }
 input:focus, input:hover {
-    background: yellow;
+    background: lightblue;
     font-weight: bolder;
 }
 footer {
@@ -30,6 +34,17 @@ ul li, ul {
     display: inline-block;
     margin-right: 20px;
 }
+.button-link {
+    background: skyblue;
+    border-radius: 5px;
+    border: 1px black solid;
+    padding: 5px 10px 5px 10px;
+    color: white;
+}
+
+.button-link:hover, .button-link:focus-within {
+    background-color: darkblue;
+}
 .error {
     text-align: center;
     font-weight: bold;
@@ -38,8 +53,14 @@ ul li, ul {
 }
 a:hover,a:focus {
     font-weight: bolder;
-    color: darkmagenta;
 }
+
+input::placeholder {
+    color: black;
+    font-weight: bold;
+
+}
+
 .header {
     text-align: center;
     color: white;
@@ -53,7 +74,7 @@ a:hover,a:focus {
     background: linear-gradient(
             rgba(0, 0, 0, 0.5),
             rgba(0, 0, 0, 0.5)
-    ), url("banner.jpg") no-repeat;
+    ), url("media/banner.jpg") no-repeat;
     background-size: cover;
 }
 #map {
@@ -76,8 +97,16 @@ a:hover,a:focus {
     font-weight: bold;
     padding: 3px;
     margin-top: 5px;
+    height: 35px;
+}
+
+.js-search-parameter {
+    width: 50%;
+    text-align: center;
 }
 
 .restaurant:focus-within, .restaurant:hover {
     background: white;
 }
+
+

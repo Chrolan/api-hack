@@ -66,13 +66,15 @@ function displayList (data) {
 }
 
 function renderError () {
-    return `<span class="error-message">Oops! You may have typed in your location in wrong, try again!<br>Tip: Remember to use City, State in combination!</span>`
+    return `<div ><span class="error-message">Oops! You may have typed in your location in wrong, try again!<br>Tip: Remember to use City, State in combination!</span>
+                <img src="media/sad-robot-3.jpg"/></div>`
 }
 
 function displayError () {
     $('.error').html(renderError());
     $('.error').prop('hidden',false);
     $('main').prop('hidden',true);
+    $('.slideshow').prop('hidden',true);
 }
 
 //creates HTML for each returned result of getRestaurantData via displayList
@@ -80,8 +82,8 @@ function renderResults (data) {
     return `<div class="restaurant col-6">
                 <h3>${data.restaurant.name}</h3>
                 <span class="website">
-                    <a href="${data.restaurant.url}" target="_blank">Information</a> 
-                    <a href="${data.restaurant.menu_url}" target="_blank">Menu</a>
+                    <a class="button-link" href="${data.restaurant.url}" target="_blank">Information</a> 
+                    <a class="button-link" href="${data.restaurant.menu_url}" target="_blank">Menu</a>
                     <p class="food-type">${data.restaurant.cuisines}</p>
                 </span>
             </div>`
@@ -140,13 +142,6 @@ function infoBox (data, marker, map) {
 
     console.log(clicking);
     return clicking;
-}
-
-function displayInfoBox (data, map, marker) {
-    boxList = data.restaurants.map((item,index) => {
-        return infoBox(item, map, marker);
-    });
-    return boxList;
 }
 
 //function that when called will load the google map within page
@@ -238,10 +233,22 @@ function initMap (data) {
     displayGoogleMarkers (data,map);
 }
 
+$("#slideshow > div:gt(0)").hide();
+
+setInterval(function() {
+  $('#slideshow > div:first')
+    .fadeOut(0)
+    .next()
+    .fadeIn(0)
+    .end()
+    .appendTo('#slideshow');
+},  3000);
+
 //unhides the HTML results and googlemaps that are children of main
 function unhideHtml () {
     $('.error').prop('hidden',true);
     $('main').prop('hidden',false);
+    $('.slideshow').prop('hidden',true);
 }
 
 //function to pass data from getRestarauntData into multiple functions
