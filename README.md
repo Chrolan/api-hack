@@ -1,7 +1,11 @@
 # api-hack
 API Capstone
-https://chrolan.github.io/api-hack/
 
-Uses 3 APIs
-Geolocates coords based on City, State (Google Geo API)
-uses coords to locate results of restaurants (
+This project uses 3 APIs to Geolocate a city based on Cordinates via Google Geo API.
+It then uses a zomator API to map results onto the a Google Maps API render.
+
+!(assets/)
+
+You can visit here: https://chrolan.github.io/api-hack/
+
+
